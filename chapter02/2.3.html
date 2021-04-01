@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="rect" width="1000" height="500"></canvas>
+<script>
+    window.onload = function (){
+      const el = document.getElementById('rect')
+      const ctx = el.getContext('2d')
+      ctx.font = '24px Helvetica'
+      ctx.fillText('click anywhere to clear rect',600,80)
+      ctx.lineWidth = 30
+      ctx.lineJoin = 'round'
+      ctx.strokeStyle = 'goldenrod'
+      ctx.fillStyle = 'rgba(0,0,255,0.5)'
+      ctx.strokeRect(400,60,200,200)
+      ctx.fillRect(700,60,200,200)
+    }
+</script>
+</body>
+</html>

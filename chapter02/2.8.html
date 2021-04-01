@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>橡皮筋式的线段绘制</title>
+    <style>
+        #demo {
+            width: 1200px;
+            height: 800px;
+            border: 1px solid rebeccapurple;
+        }
+    </style>
+</head>
+<body>
+<canvas id="demo" width="800" height="600"></canvas>
+<script>
+  window.onload = function () {
+    const el = document.getElementById('demo')
+    const ctx = el.getContext('2d')
+    let drawingSurfaceImageData = null,
+      dragging = false,
+      mouseDown = {},
+      rubberbandRect = {}
+
+    function windowToCanvas(x, y) {
+      const bbox = el.getBoundingClientRect()
+      return {
+        x: (x - bbox.left) * (el.width / bbox.width),
+        y: (y - bbox.top) * (el.height / bbox.height)
+      }
+      console.log(bbox)
+      console.log('el.width', el.width)
+      console.log('el.height', el.height)
+    }
+
+    function saveDrawingSurface() {
+      drawingSurfaceImageData = ctx.getImageData(0, 0, el.width, el.height)
+    }
+
+    function restoreDrawingSurface() {
+      ctx.putImageData(drawingSurfaceImageData, 0, 0)
+    }
+
+    function updateRubberBand(loc) {
+      updateRubberBandRectangle(loc)
+      drawRubberBandShape(loc)
+    }
+
+    function updateRubberBandRectangle(loc) {
+      rubberbandRect.width = Math.abs(loc.x - mouseDown.x)
+      rubberbandRect.height = Math.abs(loc.y - mouseDown.y)
+      rubberbandRect.left = loc.x > mouseDown.x ? loc.x : mouseDown.x
+      rubberbandRect.top = loc.y > mouseDown.y ? loc.y : mouseDown.y
+    }
+
+    function drawRubberBandShape(loc) {
+      ctx.beginPath()
+      ctx.moveTo(mouseDown.x,mouseDown.y)
+      ctx.lineTo(loc.x,loc.y)
+      ctx.stroke()
+    }
+    function drawGuideWires(loc){
+
+    }
+    function drawHorizontalLine(x){
+      ctx.beginPath()
+      ctx.moveTo()
+    }
+    function drawVerticalLine(y){
+
+    }
+    el.onmousedown = function (e) {
+      console.log(e)
+      const {x, y} = e
+      const point = windowToCanvas(x, y)
+      saveDrawingSurface()
+      mouseDown.x = point.x
+      mouseDown.y = point.y
+      dragging = true
+      // draw(point)
+    }
+    el.onmousemove = function (e) {
+      const {x, y} = e
+      let loc;
+      if (dragging) {
+        e.preventDefault()
+        loc = windowToCanvas(x, y)
+        restoreDrawingSurface()
+        updateRubberBand(loc)
+        drawGuideWires(loc)
+      }
+    }
+
+    function draw(point) {
+      const {x, y} = point
+      console.log(point)
+      ctx.arc(x, y, 10, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }
+</script>
+</body>
+</html>

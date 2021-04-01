@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="rect" width="1000" height="500"></canvas>
+<script>
+    window.onload = function (){
+      const el = document.getElementById('rect')
+      const ctx = el.getContext('2d')
+      console.log(el.width);
+      // const gradient = ctx.createLinearGradient(0,0,0,el.height)
+      // const gradient = ctx.createLinearGradient(0,0,el.width,el.height)
+      // const gradient = ctx.createLinearGradient(0,0,0,el.height/2)
+      const gradient = ctx.createRadialGradient(el.width/2,el.height,10,el.width/2,0,200)
+
+      gradient.addColorStop(0,'red')
+      gradient.addColorStop(0.25,'yellow')
+      gradient.addColorStop(0.5,'green')
+      gradient.addColorStop(0.75,'purple')
+      gradient.addColorStop(1,'pink')
+      // ctx.fillStyle = 'rgba(0,0,255,0.5)'
+      ctx.fillStyle = gradient
+      ctx.fillRect(0,0,el.width,el.height)
+    }
+</script>
+</body>
+</html>
